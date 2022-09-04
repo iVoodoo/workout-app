@@ -16,3 +16,20 @@ export const addNewExercise = asyncHandler(async (req, res) => {
 
 	res.json(exercise)
 })
+
+
+// //@desc Get new exercise
+// //@route Get /api/exercises/:id
+// //@access Private
+
+// export const addNewExercise = asyncHandler(async (req, res) => {
+// 	const { name, times, image } = req.body
+
+// 	const exercise = await Exercise.create({
+// 		name,
+// 		times,
+// 		image,
+// 	})
+
+// 	res.json(exercise)
+// })
