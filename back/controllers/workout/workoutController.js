@@ -27,3 +27,45 @@ export const getWorkout = asyncHandler(async (req, res) => {
 
 	res.json({ ...workout, minutes })
 })
+
+//@desc 	Update workout
+//@route 	PUT /api/workouts
+//@access Private
+
+export const updateWorkout = asyncHandler(async (req, res) => {
+	const { name, exerciseIds, workoutId } = req.body
+
+	const workout = await Workout.findById(workoutId)
+
+	if (!workout) {
+		res.status(404)
+		throw new Error('Данная тренировка не найдена!')
+	}
+
+	workout.name = name
+	workout.exercises = exerciseIds
+
+	const updatedWorkout = await workout.save()
+
+	res.json(updatedWorkout)
+})
+
+//@desc 	Delete workout
+//@route 	DELETE /api/workouts
+//@access Private
+
+export const deleteWorkout = asyncHandler(async (req, res) => {
+	const { workoutId } = req.body
+
+
+	const workout = await Workout.findById(workoutId)
+
+	if (!workout) {
+		res.status(404)
+		throw new Error('Данная тренировка не найдена!')
+	}
+
+	await workout.remove()
+
+	res.json({ message: 'Тренировка была удалена' })
+})
