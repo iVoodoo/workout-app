@@ -5,8 +5,13 @@ import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/').post(protect, createNewWorkout).put(protect, updateWorkout).delete(protect, deleteWorkout)
-router.route('/log').post(protect, createWorkoutLog)
-router.route('/:id').get(protect, getWorkout)
+router.route('/')
+	.post(protect, createNewWorkout)
+	.put(protect, updateWorkout)
+	.delete(protect, deleteWorkout)
+router.route('/log')
+	.post(protect, createWorkoutLog)
+router.route('/:id')
+	.get(protect, getWorkout)
 
 export default router

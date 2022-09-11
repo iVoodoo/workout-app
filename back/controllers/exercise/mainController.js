@@ -24,7 +24,6 @@ export const createNewExercise = asyncHandler(async (req, res) => {
 export const updateExercise = asyncHandler(async (req, res) => {
 	const { name, times, imageIndex, exerciseId } = req.body
 
-
 	const exercises = await Exercise.findById(exerciseId)
 
 	if (!exercises) {
@@ -48,7 +47,6 @@ export const updateExercise = asyncHandler(async (req, res) => {
 export const deleteExercise = asyncHandler(async (req, res) => {
 	const { exerciseId } = req.body
 
-
 	const exercises = await Exercise.findById(exerciseId)
 
 	if (!exercises) {
@@ -59,4 +57,14 @@ export const deleteExercise = asyncHandler(async (req, res) => {
 	await exercises.remove()
 
 	res.json({ message: 'Упражнение было удалено' })
+})
+
+//@desc 	Get  exercises
+//@route 	POST /api/exercises
+//@access Private
+
+export const getExercises = asyncHandler(async (req, res) => {
+	const exercises = await Exercise.find({})
+
+	res.json(exercises)
 })
