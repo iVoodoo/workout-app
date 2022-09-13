@@ -1,4 +1,5 @@
 import React from 'react'
+
 import styles from './Header.module.scss'
 
 import userImage from '../../../images/header/user.svg'
