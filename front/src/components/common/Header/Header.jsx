@@ -20,7 +20,7 @@ const Header = () => {
 					<img src={arrowImage} alt='Back' />
 				</button>
 			) :
-				(<button type='button'>
+				(<button type='button' onClick={() => navigate('/auth')}>
 					<img src={userImage} alt='Auth' />
 				</button>)
 			}
