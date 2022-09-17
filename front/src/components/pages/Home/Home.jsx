@@ -13,7 +13,7 @@ const Home = () => {
 	const navigate = useNavigate()
 
 	return (
-		<Layout height='100%' bgImage={bgImage}>
+		<Layout bgImage={bgImage}>
 			<Button
 				text='New'
 				type='main'
