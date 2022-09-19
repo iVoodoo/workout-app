@@ -1,4 +1,7 @@
 import React from 'react'
+import { useMutation } from 'react-query'
+
+import { $api } from '../../../api/api'
 
 import Layout from '../../common/Layout'
 import Alert from '../../ui/Alert/Alert'
@@ -8,6 +11,7 @@ import Button from '../../ui/Button/Button'
 import styles from './Auth.module.scss'
 
 import bgImage from '../../../images/bg-auth.png'
+import Loader from '../../ui/Loader'
 
 const Auth = () => {
 
@@ -15,13 +19,30 @@ const Auth = () => {
 	const [password, setPassword] = React.useState('')
 	const [type, setType] = React.useState('auth')
 
+	const {
+		mutate: register,
+		isLoading,
+		error
+	} = useMutation('Registration',
+		() => $api({
+			url: '/users',
+			type: 'POST',
+			body: { email, password },
+			auth: false,
+		}), {
+		onSuccess(data) {
+			localStorage.setItem('token', data.token)
+		}
+	}
+	)
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
 
 		if (type === 'auth') {
 			console.log('AUTH')
 		} else {
-			console.log('REG')
+			register()
 		}
 	}
 
@@ -29,7 +50,8 @@ const Auth = () => {
 		<>
 			<Layout bgImage={bgImage} heading='Auth || Register' />
 			<div className='wrapper-inner-page'>
-				{true && <Alert type='warning' text='TEST ALERT' />}
+				{error && <Alert type='error' text={error} />}
+				{isLoading && <Loader />}
 				<form onSubmit={handleSubmit}>
 					<Field
 						type='email'

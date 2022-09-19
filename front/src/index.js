@@ -2,6 +2,9 @@ import React from 'react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 import App from './Routes';
 
 import './scss/index.scss'
@@ -9,9 +12,14 @@ import './scss/index.scss'
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
+const queryClient = new QueryClient()
+
 root.render(
   <StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </StrictMode>,
 );
 
