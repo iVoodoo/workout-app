@@ -6,8 +6,6 @@ import Layout from '../../common/Layout'
 import Field from '../../ui/Field/Field'
 import Button from '../../ui/Button/Button'
 
-import styles from './NewWorkout.module.scss'
-
 import bgImage from '../../../images/newWorkout.jpg'
 
 const NewWorkout = () => {
@@ -31,7 +29,7 @@ const NewWorkout = () => {
 						onChange={e => setName(e.target.value)}
 						required
 					/>
-					<Link to='/new-exercise' className={styles['dark-link']}>
+					<Link to='/new-exercise' className='dark-link'>
 						Add new exercise
 					</Link>
 					<ReactSelect

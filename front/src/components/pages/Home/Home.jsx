@@ -22,7 +22,6 @@ const Home = () => {
 		}), {
 		refetchOnWindowFocus: false,
 		enabled: isAuth,
-
 	})
 
 	return (

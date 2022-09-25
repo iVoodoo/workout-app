@@ -84,7 +84,6 @@ const Auth = () => {
 				{error && <Alert type='error' text={error} />}
 				{errorAuth && <Alert type='error' text={errorAuth} />}
 				{(isLoading || isLoadingAuth) && <Loader />}
-
 				<form onSubmit={handleSubmit}>
 					<Field
 						type='email'

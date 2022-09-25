@@ -6,12 +6,12 @@ import Exercise from "../../models/exerciseModel.js"
 //@access Private
 
 export const createNewExercise = asyncHandler(async (req, res) => {
-	const { name, times, imageIndex } = req.body
+	const { name, times, imageName } = req.body
 
 	const exercise = await Exercise.create({
 		name,
 		times,
-		imageIdx: imageIndex,
+		imageName: imageName,
 	})
 
 	res.json(exercise)
@@ -22,7 +22,7 @@ export const createNewExercise = asyncHandler(async (req, res) => {
 //@access Private
 
 export const updateExercise = asyncHandler(async (req, res) => {
-	const { name, times, imageIndex, exerciseId } = req.body
+	const { name, times, imagimageNameeIndex, exerciseId } = req.body
 
 	const exercises = await Exercise.findById(exerciseId)
 
@@ -33,7 +33,7 @@ export const updateExercise = asyncHandler(async (req, res) => {
 
 	exercises.name = name
 	exercises.times = times
-	exercises.imageIdx = imageIndex
+	exercises.imageName = imageName
 
 	const updatedExercise = await exercises.save()
 

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, } from "react-router-dom"
 
-import { routes } from './routes'
+import { routes } from './dataRoutes'
 import { useAuth } from './hooks/useAuth'
 
 import Error404 from "./components/pages/404"
