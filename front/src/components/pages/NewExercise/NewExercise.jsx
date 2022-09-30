@@ -55,7 +55,7 @@ const NewExercise = () => {
 			<div className='wrapper-inner-page'>
 				{error && <Alert type='error' text={error} />}
 				{isSuccess && <Alert text='Exercise has been created' />}
-				{(isLoading) && <Loader />}
+				{isLoading && <Loader />}
 				<form onSubmit={handleSubmit}>
 					<Field
 						type='text'
