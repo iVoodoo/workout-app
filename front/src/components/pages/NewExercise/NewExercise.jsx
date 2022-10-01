@@ -73,7 +73,7 @@ const NewExercise = () => {
 					/>
 					<div className={styles.images}>
 						{data.map(name => (
-							<img key={`ex img ${name}`} src={`/uploads/exercises/${name}.svg`} alt={name}
+							<img key={`ex img ${name}`} src={`/uploads/exercises/${name}.svg`} alt={name} draggable={false}
 								className={cn({
 									[styles.active]: imageName === name
 								})}

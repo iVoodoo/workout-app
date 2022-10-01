@@ -26,7 +26,7 @@ const Hamburger = () => {
 	return (
 		<div className={styles.wrapper} ref={ref}>
 			<button type='button' onClick={() => setIsComponentVisible(!isComponentVisible)}>
-				<img src={isComponentVisible ? hamburgerClose : hamburgerImage} alt='hamburger menu' height='24' />
+				<img src={isComponentVisible ? hamburgerClose : hamburgerImage} alt='hamburger menu' draggable={false} height='24' />
 			</button>
 			<nav className={`${styles.menu} ${isComponentVisible ? styles.show : ''}`}>
 				<ul>

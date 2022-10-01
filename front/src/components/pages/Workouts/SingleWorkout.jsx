@@ -44,7 +44,7 @@ const SingleWorkout = () => {
 									<Link to={`/exercises/${ex._id}`}>
 										<div className={styles.item}>
 											<span>{ex.name}</span>
-											<img key={`ex img ${ex.imageName}`} src={`/uploads/exercises/${ex.imageName}.svg`} alt={ex.imageName} height='34' />
+											<img key={`ex img ${ex.imageName}`} src={`/uploads/exercises/${ex.imageName}.svg`} alt={ex.imageName} draggable={false} height='34' />
 										</div>
 									</Link>
 
