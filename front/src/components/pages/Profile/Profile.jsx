@@ -1,9 +1,7 @@
 import { useQuery } from 'react-query'
-import { useNavigate } from 'react-router-dom'
 
 import { $api } from '../../../api/api'
 
-import Loader from '../../ui/Loader'
 import Header from '../../common/Header/Header'
 
 import styles from './Profile.module.scss'
@@ -25,7 +23,7 @@ const Profile = () => {
 
 	return (
 		<>
-			<div className={`${stylesLayout.wrapper} ${stylesLayout.otherPage}`} style={{ backgroundImage: `url(${bgImage})` }}>
+			<div className={`${stylesLayout.wrapper} ${stylesLayout.otherPage}`} style={{ backgroundImage: `url(${bgImage})`, height: 356 }}>
 				<Header />
 
 				<div className={styles.center}>
