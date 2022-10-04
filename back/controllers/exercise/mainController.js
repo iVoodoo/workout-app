@@ -11,7 +11,7 @@ export const createNewExercise = asyncHandler(async (req, res) => {
 	const exercise = await Exercise.create({
 		name,
 		times,
-		imageName: imageName,
+		imageName,
 	})
 
 	res.json(exercise)
@@ -22,20 +22,20 @@ export const createNewExercise = asyncHandler(async (req, res) => {
 //@access Private
 
 export const updateExercise = asyncHandler(async (req, res) => {
-	const { name, times, imagimageNameeIndex, exerciseId } = req.body
+	const { name, times, imageName, exerciseId } = req.body
 
-	const exercises = await Exercise.findById(exerciseId)
+	const exercise = await Exercise.findById(exerciseId)
 
-	if (!exercises) {
+	if (!exercise) {
 		res.status(404)
 		throw new Error('Данное упражнение не найдено!')
 	}
 
-	exercises.name = name
-	exercises.times = times
-	exercises.imageName = imageName
+	exercise.name = name
+	exercise.times = times
+	exercise.imageName = imageName
 
-	const updatedExercise = await exercises.save()
+	const updatedExercise = await exercise.save()
 
 	res.json(updatedExercise)
 })
@@ -47,14 +47,14 @@ export const updateExercise = asyncHandler(async (req, res) => {
 export const deleteExercise = asyncHandler(async (req, res) => {
 	const { exerciseId } = req.body
 
-	const exercises = await Exercise.findById(exerciseId)
+	const exercise = await Exercise.findById(exerciseId)
 
-	if (!exercises) {
+	if (!exercise) {
 		res.status(404)
 		throw new Error('Данное упражнение не найдено!')
 	}
 
-	await exercises.remove()
+	await exercise.remove()
 
 	res.json({ message: 'Упражнение было удалено' })
 })

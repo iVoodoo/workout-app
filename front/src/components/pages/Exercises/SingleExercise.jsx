@@ -1,0 +1,132 @@
+import { useEffect, useState } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { Link, useParams } from 'react-router-dom'
+import cn from 'classnames'
+import { $api } from '../../../api/api'
+
+import Header from '../../common/Header/Header'
+import Alert from '../../ui/Alert/Alert'
+
+import styles from './Exercises.module.scss'
+import stylesLayout from '../../common/Layout.module.scss'
+
+import bgImage1 from '../../../images/bg-exercises-1.jpg'
+import bgImage2 from '../../../images/bg-exercises-2.jpg'
+import checkImage from '../../../images/check.svg'
+import checkCompletedImage from '../../../images/completed.svg'
+
+const getRandomInt = (min, max) => {
+	min = Math.ceil(min)
+	max = Math.ceil(max)
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const SingleExercise = () => {
+	const { id } = useParams()
+	const [bgImage, setBgImage] = useState(bgImage1)
+
+	useEffect(() => {
+		setBgImage(getRandomInt(1, 2) === 1 ? bgImage1 : bgImage2)
+	}, [])
+
+	const { data, isSuccess, refetch } = useQuery('get exercise log',
+		() => $api({
+			url: `/exercises/log/${id}`,
+		}), {
+		onSuccess(data) {
+
+		},
+		refetchOnWindowFocus: false,
+	})
+
+	const {
+		mutate: changeState,
+		isLoading: isLoadingChange,
+		error: errorChange
+	} = useMutation('Change log state',
+		({ timeIndex, key, value }) => $api({
+			url: '/exercises/log/',
+			type: 'PUT',
+			body: { timeIndex, key, value, logId: id },
+			auth: false,
+		}), {
+		onSuccess(data) {
+			refetch()
+		}
+	})
+
+	return (
+		<>
+			<div className={`${stylesLayout.wrapper} ${stylesLayout.otherPage}`} style={{ backgroundImage: `url(${bgImage})`, height: 356 }}>
+				<Header />
+
+				{isSuccess && (
+					<div className={styles.heading}>
+						<img key={`ex img ${data.exercise.imageName}`} src={`/uploads/exercises/${data.exercise.imageName}.svg`} alt={data.exercise.imageName} draggable={false} height='34' />
+						<h1 className={stylesLayout.heading}>{data.exercise.name}</h1>
+					</div>
+				)}
+
+			</div>
+			<div className='wrapper-inner-page' style={{ paddingLeft: 0, paddingRight: 0 }}>
+				<div style={{ width: '90%', margin: '0 auto 1rem' }}>
+					{errorChange && <Alert type='error' text={errorChange} />}
+				</div>
+				{isSuccess ? (
+					<div className={styles.wrapper}>
+						<div className={styles.row}>
+							<div>
+								<span>Previous</span>
+							</div>
+							<div>
+								<span>Repeat & Weight </span>
+							</div>
+							<div>
+								<span>Completed</span>
+							</div>
+						</div>
+						{data.times.map((item, idx) =>
+							<div className={cn(styles.row, {
+								[styles.completed]: item.completed,
+							})} key={`time ${idx} `} >
+								<div className={styles.opacity}>
+									<input type="number" defaultValue={item.prevWeight} disabled />
+									<i>kg{item.completed ? '' : ' '}/</i>
+									<input type="number" defaultValue={item.prevRepeat} disabled />
+								</div>
+
+								<div>
+									<input type="number" defaultValue={item.weight} onChange={e => e.target.value && changeState({
+										timeIndex: idx,
+										key: 'weight',
+										value: e.target.value
+									})}
+										disabled={item.completed}
+									/>
+									<i>kg /</i>
+									<input type="number" defaultValue={item.repeat} onChange={e => changeState({
+										timeIndex: idx,
+										key: 'repeat',
+										value: e.target.value
+									})} />
+								</div>
+
+								<div>
+									<img src={item.completed ? checkCompletedImage : checkImage} className={styles.checkbox} onClick={() => changeState({
+										timeIndex: idx,
+										key: 'completed',
+										value: !item.completed
+									})} />
+								</div>
+							</div>
+						)}
+					</div>
+				) : (
+					<Alert type='warning' text='Times are not found' />
+				)}
+			</div>
+		</>
+	)
+}
+
+export default SingleExercise

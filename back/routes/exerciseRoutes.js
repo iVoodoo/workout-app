@@ -1,6 +1,6 @@
 import express from 'express'
-import { createExerciseLog } from '../controllers/exercise/log/createController.js'
-import { getExerciseLog } from '../controllers/exercise/log/getController.js'
+import { createNewExerciseLog } from '../controllers/exercise/log/createController.js'
+import { getExerciseLog, getExerciseLogList } from '../controllers/exercise/log/getController.js'
 import { updateCompleteExerciseLog, updateExerciseLog } from '../controllers/exercise/log/updateController.js'
 
 import { createNewExercise, deleteExercise, getExercises, updateExercise } from '../controllers/exercise/mainController.js'
@@ -14,7 +14,8 @@ router.route('/')
 	.put(protect, updateExercise)
 	.delete(protect, deleteExercise)
 router.route('/log')
-	.post(protect, createExerciseLog)
+	.get(protect.apply, getExerciseLogList)
+	.post(protect, createNewExerciseLog)
 	.put(protect, updateExerciseLog)
 router.route('/log/completed')
 	.put(protect, updateCompleteExerciseLog)

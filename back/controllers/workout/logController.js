@@ -23,7 +23,7 @@ export const createWorkoutLog = asyncHandler(async (req, res) => {
 		const logs = workout.exercises.map(ex => {
 			let timesArray = []
 
-			for (let i = 0; i < times; i++) {
+			for (let i = 0; i < ex.times; i++) {
 				timesArray.push({
 					weight: 0,
 					repeat: 0

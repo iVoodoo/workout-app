@@ -9,11 +9,7 @@ const exerciseLogSchema = mongoose.Schema(
 			ref: 'User',
 			required: true
 		},
-		exercise: {
-			type: ObjectId,
-			ref: 'Exercise',
-			required: true
-		},
+		exercise: { type: ObjectId, ref: 'Exercise', required: true },
 		completed: {
 			type: Boolean,
 			default: false
@@ -25,7 +21,7 @@ const exerciseLogSchema = mongoose.Schema(
 				completed: { type: Boolean, default: false },
 			}
 		],
-		workoutLog: { type: ObjectId, ref: 'WorkoutLog', required: true },
+		workoutLog: [{ type: ObjectId, ref: 'WorkoutLog', required: true }],
 	}, {
 	minimize: false,
 	timestamps: true

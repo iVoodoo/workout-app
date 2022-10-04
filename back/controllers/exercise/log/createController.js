@@ -6,7 +6,7 @@ import ExerciseLog from "../../../models/exerciseLogModel.js"
 //@route 	Post /api/exercises/log
 //@access Private
 
-export const createExerciseLog = asyncHandler(async (req, res) => {
+export const createNewExerciseLog = asyncHandler(async (req, res) => {
 	const { exerciseId, times } = req.body
 
 	let timesArray = []
