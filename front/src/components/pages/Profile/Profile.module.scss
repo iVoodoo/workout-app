@@ -4,9 +4,16 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	@media (max-width: $mobile) {
+		width: 90%;
+		margin: 0 auto;
+	}
 
 	> div {
 		width: 50%;
+		@media (max-width: $mobile) {
+			width: 48%;
+		}
 	}
 
 	img {

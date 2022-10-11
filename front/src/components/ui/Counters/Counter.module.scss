@@ -15,6 +15,10 @@
 		width: 27%;
 		font-size: 24px;
 		text-align: center;
+		@media (max-width: $mobile) {
+			font-size: 18px;
+		}
+
 		.heading {
 			color: #8a7474;
 			text-transform: capitalize;

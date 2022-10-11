@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
+import cn from 'classnames'
 
 import { $api } from '../../../api/api'
 
@@ -19,28 +20,33 @@ const SingleWorkout = () => {
 
 	const { data, isSuccess } = useQuery('get workout',
 		() => $api({
-			url: `/workouts/${id}`,
+			url: `/workouts/log/${id}`,
 		}), {
 		refetchOnWindowFocus: false,
 	})
 
 	const {
-		mutate,
-		isLoading,
-		isSuccess: isSuccessMutate,
-		error,
-	} = useMutation('Create new ex log',
+		mutate: setWorkoutCompleted,
+		error: errorCompleted,
+	} = useMutation('Change log state',
 		({ exId, times }) => $api({
-			url: '/exercises/log',
-			type: 'POST',
-			body: { exerciseId: exId, times },
+			url: '/workouts/log/completed',
+			type: 'PUT',
+			body: { logId: id },
 		}), {
-		onSuccess(data) {
-			console.log('LOG CREATED')
-			console.log(data)
-			navigate(`/exercise/${data._id}`)
+		onSuccess() {
+			navigate(`/workouts`)
 		}
 	})
+
+	useEffect(() => {
+		if (isSuccess &&
+			data?.exerciseLogs &&
+			data.exerciseLogs.length ===
+			data.exerciseLogs.filter(log => log.completed).length) {
+			setWorkoutCompleted()
+		}
+	}, [data?.exerciseLogs])
 
 	return (
 		<>
@@ -49,30 +55,26 @@ const SingleWorkout = () => {
 				{isSuccess && (
 					<div>
 						<time className={styles.time}>{data.minutes + ' min.'}</time>
-						<h1 className={stylesLayout.heading}>{data.name}</h1>
+						<h1 className={stylesLayout.heading}>{data.workout.name}</h1>
 					</div>
 				)}
 			</div>
 			<div className='wrapper-inner-page' style={{ paddingLeft: 0, paddingRight: 0 }}>
-				{error && <Alert type='error' text={error} />}
-				{isSuccessMutate && <Alert text='Exercise log has been created' />}
-				{isLoading && <Loader />}
 				{isSuccess ? (
 					<div className={styles.wrapper}>
-						{data.exercises.map((ex, idx) => {
+						{data.exerciseLogs.map((exLog, idx) => {
 							return (
 								<Fragment key={`ex ${idx} `}>
-									<button aria-label={`Move to exercise - ${ex._id}`} onClick={() => mutate({
-										exId: ex._id,
-										times: ex.times,
-									})}>
-										<div className={styles.item}>
-											<span>{ex.name}</span>
-											<img key={`ex img ${ex.imageName}`} src={`/uploads/exercises/${ex.imageName}.svg`} alt={ex.imageName} draggable={false} height='34' />
+									<button aria-label='Move to exercise' onClick={() => navigate(`/exercise/${exLog._id}`)}>
+										<div className={cn(styles.item, {
+											[styles.completed]: exLog.completed,
+										})}>
+											<span>{exLog.exercise.name}</span>
+											<img src={`/uploads/exercises/${exLog.exercise.imageName}.svg`} alt={exLog.exercise.imageName} draggable={false} height='34' />
 										</div>
 									</button>
 
-									{(idx % 2 !== 0 && idx != data.exercises.length - 1) && <div className={styles.line}></div>}
+									{(idx % 2 !== 0 && idx !== data.exerciseLogs.length - 1) && <div className={styles.line}></div>}
 								</Fragment>
 							)
 						})}

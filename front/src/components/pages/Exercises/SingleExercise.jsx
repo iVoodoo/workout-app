@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import cn from 'classnames'
+import debounce from 'lodash.debounce'
+
 import { $api } from '../../../api/api'
 
 import Header from '../../common/Header/Header'
@@ -24,6 +26,7 @@ const getRandomInt = (min, max) => {
 const SingleExercise = () => {
 	const { id } = useParams()
 	const [bgImage, setBgImage] = useState(bgImage1)
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		setBgImage(getRandomInt(1, 2) === 1 ? bgImage1 : bgImage2)
@@ -33,9 +36,6 @@ const SingleExercise = () => {
 		() => $api({
 			url: `/exercises/log/${id}`,
 		}), {
-		onSuccess(data) {
-
-		},
 		refetchOnWindowFocus: false,
 	})
 
@@ -50,10 +50,32 @@ const SingleExercise = () => {
 			body: { timeIndex, key, value, logId: id },
 			auth: false,
 		}), {
-		onSuccess(data) {
+		onSuccess() {
 			refetch()
 		}
 	})
+
+	const {
+		mutate: setExCompleted,
+		error: errorCompleted,
+	} = useMutation('Change log state',
+		() => $api({
+			url: '/exercises/log/completed',
+			type: 'PUT',
+			body: { logId: id, completed: true },
+		}), {
+		onSuccess() {
+			navigate(`/workout/${data.workoutLog}`)
+		}
+	})
+
+	useEffect(() => {
+		if (isSuccess &&
+			data.times.length ===
+			data.times.filter(time => time.completed).length) {
+			setExCompleted()
+		}
+	}, [data?.times, isSuccess])
 
 	return (
 		<>
@@ -71,6 +93,7 @@ const SingleExercise = () => {
 			<div className='wrapper-inner-page' style={{ paddingLeft: 0, paddingRight: 0 }}>
 				<div style={{ width: '90%', margin: '0 auto 1rem' }}>
 					{errorChange && <Alert type='error' text={errorChange} />}
+					{errorCompleted && <Alert type='error' text={errorCompleted} />}
 				</div>
 				{isSuccess ? (
 					<div className={styles.wrapper}>
@@ -90,25 +113,25 @@ const SingleExercise = () => {
 								[styles.completed]: item.completed,
 							})} key={`time ${idx} `} >
 								<div className={styles.opacity}>
-									<input type="number" defaultValue={item.prevWeight} disabled />
+									<input type='number' defaultValue={item.prevWeight} disabled />
 									<i>kg{item.completed ? '' : ' '}/</i>
-									<input type="number" defaultValue={item.prevRepeat} disabled />
+									<input type='number' defaultValue={item.prevRepeat} disabled />
 								</div>
 
 								<div>
-									<input type="number" defaultValue={item.weight} onChange={e => e.target.value && changeState({
+									<input type='tel' pattern='[0-9]*' defaultValue={item.weight} onChange={debounce(e => e.target.value && changeState({
 										timeIndex: idx,
 										key: 'weight',
 										value: e.target.value
-									})}
+									}), 800)}
 										disabled={item.completed}
 									/>
 									<i>kg /</i>
-									<input type="number" defaultValue={item.repeat} onChange={e => changeState({
+									<input type='tel' pattern='[0-9]*' defaultValue={item.repeat} onChange={debounce(e => changeState({
 										timeIndex: idx,
 										key: 'repeat',
 										value: e.target.value
-									})} />
+									}), 800)} />
 								</div>
 
 								<div>

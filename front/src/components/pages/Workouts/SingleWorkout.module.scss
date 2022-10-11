@@ -28,6 +28,9 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			@media (max-width: $mobile) {
+				font-size: 18px;
+			}
 
 			&:hover {
 				background-color: $dark-purple;
@@ -35,6 +38,9 @@
 			}
 
 			&.finished {
+				background-color: $dark-purple;
+			}
+			&.completed {
 				background-color: $dark-purple;
 			}
 		}
