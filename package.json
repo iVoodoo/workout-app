@@ -5,13 +5,13 @@
 	"main": "server.js",
 	"type": "module",
 	"scripts": {
-    "server": "nodemon back/server.js",
-    "server-start": "node back/server.js",
-    "start": "concurrently \"npm run server-start\" \"npm run start --prefix front\"",
+		"server": "nodemon back/server.js",
+		"server-start": "node back/server.js",
+		"start": "concurrently \"npm run server-start\" \"npm run start --prefix front\"",
 		"dev": "concurrently \"npm run server\" \"npm run start --prefix front\"",
 		"build": "cd front && npm run build",
 		"install-client": "cd front && npm install",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
 	},
 	"author": "voodoo",
 	"license": "ISC",
@@ -28,7 +28,7 @@
 	},
 	"devDependencies": {
 		"colors": "^1.4.0",
-		"concurrently": "^7.3.0",
+		"concurrently": "^7.4.0",
 		"morgan": "^1.10.0",
 		"nodemon": "^2.0.19"
 	}
