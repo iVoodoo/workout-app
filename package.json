@@ -5,12 +5,12 @@
 	"main": "server.js",
 	"type": "module",
 	"scripts": {
+    "server": "nodemon back/server",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix front\"",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix front\"",
 		"build": "cd front && npm run build",
-    "install-client": "cd front && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
-    "server": "nodemon back/server.js",
-    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix front\"",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix front\""
+		"install-client": "cd front && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build"
 	},
 	"author": "voodoo",
 	"license": "ISC",
