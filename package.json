@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 			"install-client": "cd front && npm install",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front",
+		"heroku-postbuild": "cd front && npm install && npm run build",
 		"server": "nodemon back/server.js",
 		"server-start": "node back/server.js",
 		"start": "concurrently \"npm run server-start\" \"npm run start --prefix front\"",
