@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"install-client": "cd front && npm install",
-		"heroku-postbuild": "cd front && npm install && npm run build",
+		"heroku-postbuild": "npm install && cd front && npm install && npm run build",
 		"server": "node back/server",
 		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix front\"",
 		"start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix front\"",
