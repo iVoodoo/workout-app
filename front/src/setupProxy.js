@@ -4,7 +4,7 @@ module.exports = function (app) {
 	app.use(
 		'/api',
 		createProxyMiddleware({
-			target: 'http://localhost:5000',
+			target: 'https://still-gorge-69538.herokuapp.com/ ',
 			changeOrigin: true,
 		})
 	);
@@ -12,7 +12,7 @@ module.exports = function (app) {
 	app.use(
 		'/uploads/',
 		createProxyMiddleware({
-			target: 'http://localhost:5000',
+			target: 'https://still-gorge-69538.herokuapp.com/ ',
 			changeOrigin: true,
 		})
 	);
