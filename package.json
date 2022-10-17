@@ -9,13 +9,13 @@
 	"main": "server.js",
 	"type": "module",
 	"scripts": {
-		"server": "nodemon back/server",
-		"server-start": "node back/server",
-		"start": "concurrently \"npm install\" \"npm run server-start\" \"npm run start --prefix front\"",
-		"dev": "concurrently \"npm install\" \"npm run server\" \"npm run start --prefix front\"",
-		"build": "cd front && npm run build",
+		"server": "nodemon back/server.js --ignore front",
+		"client": "cd front && npm start",
+		"dev": "concurrently \"npm run client\" \"npm run server\"",
 		"install-client": "cd front && npm install",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
+		"build": "cd front && npm run build",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install-client && npm run build",
+		"start": "node back/server.js"
 	},
 	"author": "voodoo",
 	"license": "ISC",
